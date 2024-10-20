@@ -15,6 +15,14 @@ app.use(express.static(path.join(__dirname)));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "config.html"));
+app.get('/temp', (req, res) => {
+    res.sendFile(path.join(__dirname, 'temp.html'));
+});
+  
+app.get('/logs', (req, res) => {
+    res.sendFile(path.join(__dirname, 'logs.html'));
+});
+    
 app.use(express.json());  // Middleware สำหรับ parse JSON  
 
 
