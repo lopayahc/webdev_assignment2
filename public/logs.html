@@ -19,7 +19,7 @@
                 <nav class="tap-menu">
                     <label class="text-wrapper-8" onclick="window.location.href='config.html';">View Config</label>
                     <label class="text-wrapper-9" onclick="window.location.href='temp.html';">Temperature Log</label>
-                    <label class="text-wrapper-10" onclick="window.location.href='logs.html';">View Logs</label>
+                    <label class="text-wrapper-10" onclick="window.location.href='logs-page';">View Logs</label>
                 </nav>
             </div>
 
@@ -41,35 +41,37 @@
     </div>
 
     <script>
-        async function fetchLogs() {
+       async function fetchLogs() {
             try {
                 const response = await fetch("/logs");
                 if (!response.ok) {
-                throw new Error("Failed to fetch logs");
+                    throw new Error("Failed to fetch logs");
                 }
 
                 const logs = await response.json();
+                console.log("Logs fetched:", logs);  // ตรวจสอบว่า logs ถูกดึงมาถูกต้องหรือไม่
                 const tableBody = document.querySelector("#logsTable tbody");
                 tableBody.innerHTML = "";  // ล้างข้อมูลเก่า
 
                 logs.forEach(log => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${log.drone_id}</td>
-                    <td>${log.drone_name}</td>
-                    <td>${log.country}</td>
-                    <td>${log.celsius}</td>
-                    <td>${new Date(log.created).toLocaleString()}</td>
-                `;
-                tableBody.appendChild(row);
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${log.drone_id}</td>
+                        <td>${log.drone_name}</td>
+                        <td>${log.country}</td>
+                        <td>${log.celsius}</td>
+                        <td>${new Date(log.created).toLocaleString()}</td>
+                    `;
+                    tableBody.appendChild(row);
                 });
             } catch (error) {
                 console.error("Error fetching logs:", error);
             }
-            }
+        }
 
-            window.onload = fetchLogs;
+        window.onload = fetchLogs;
 
     </script>
+    
 </body>
 </html>
