@@ -59,20 +59,20 @@
     <script>
         document.getElementById('tempForm').addEventListener('submit', async function(event) {
             event.preventDefault();  // ป้องกันการส่งฟอร์มแบบปกติ
-
+    
             const drone_id = document.getElementById('drone_id').value;
             const drone_name = document.getElementById('drone_name').value;
             const country = document.getElementById('country').value;
             const celsius = document.getElementById('celsius').value;
-
+    
             // ตรวจสอบข้อมูลก่อนส่ง
             console.log({ drone_id, drone_name, country, celsius });
-
+    
             if (!drone_id || !drone_name || !country || !celsius) {
                 document.getElementById('message').textContent = "Please fill in all fields.";
                 return;
             }
-
+    
             try {
                 const response = await fetch('/logs', {
                     method: 'POST',
@@ -86,13 +86,15 @@
                         celsius: Number(celsius) 
                     })
                 });
-
+    
                 if (response.ok) {
                     const data = await response.json();
+                    console.log("Data logged:", data);  // แสดงข้อมูลที่บันทึก
                     document.getElementById('message').textContent = data.message;
                     document.getElementById('tempForm').reset();  // ล้างข้อมูลในฟอร์ม
                 } else {
                     const errorMessage = await response.text();
+                    console.error("Error logging data:", errorMessage);
                     document.getElementById('message').textContent = errorMessage;
                 }
             } catch (error) {
@@ -100,8 +102,8 @@
                 document.getElementById('message').textContent = 'An error occurred while logging temperature.';
             }
         });
-
     </script>
+    
 
 </body>
 </html>
