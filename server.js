@@ -17,9 +17,10 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'config.html'));
 });
 
-app.get("/logs", (req, res) => {
+app.get("/logs-page", (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'logs.html'));
 });
+
 
 app.get("/temp", (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'temp.html'));
@@ -62,12 +63,11 @@ app.get("/configs/:id", async (req, res) => {
   }
 });
 
-// GET /logs: ส่งข้อมูล logs ที่เก็บอยู่ภายในเซิร์ฟเวอร์กลับไป
 app.get("/logs", (req, res) => {
   try {
     console.log("Sending logs:", logs);  // ตรวจสอบ logs ก่อนส่งกลับไป
     res.set("Cache-Control", "no-store");  // ป้องกันการใช้ cache
-    res.send(logs);  // ส่งข้อมูล logs กลับไป
+    res.json(logs);  // ส่งข้อมูล logs กลับไปในรูป JSON
   } catch (error) {
     console.error("Error fetching logs:", error);
     res.status(500).send("Error fetching data");
